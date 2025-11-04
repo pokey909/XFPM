@@ -1,0 +1,12 @@
+; test data for verification of mtx_inv2x2f_cond10 function
+
+; these data are generated automatically, do not change them manually
+; ---------------------------------------------------------------
+; Copyright IntegrIT 2014-2020
+; ---------------------------------------------------------------
+; accuracy
+1 0; test case # and type (accuracy)
+2 ; N
+c0042d95 3f6c8368 bfe8813a 3fa5fc3f ; A
+bfa5fc62 3f6c8316 bfe8815a 40042d7f ; inv(A)lo
+bfa5fc16 3f6c83b0 bfe8810e 40042da5 ; inv(A)hi

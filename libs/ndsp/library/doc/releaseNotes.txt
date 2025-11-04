@@ -1,0 +1,198 @@
+/* ------------------------------------------------------------------------ */
+/* Copyright (c) 2021-2025 by Cadence Design Systems, Inc. ALL RIGHTS RESERVED.  */
+/* These coded instructions, statements, and computer programs ('Cadence    */
+/* Libraries') are the copyrighted works of Cadence Design Systems Inc.     */
+/* Cadence IP is licensed for use with Cadence processor cores only and     */
+/* must not be used for any other processors and platforms. Your use of the */
+/* Cadence Libraries is subject to the terms of the license agreement you   */
+/* have entered into with Cadence Design Systems, or a sublicense granted   */
+/* to you by a direct Cadence licensee.                                     */
+/* ------------------------------------------------------------------------ */
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v5.0.0  May-2025 
+==============================================================
+
+- This release contains source code changes to build with RJ-2024.4 toolchain.
+- This library contains 43 different newly added kernels.   
+- This is a unified source code that builds for both HiFi3 and HiFi3z cores.
+- Verification & testing has been done with a very multiple variants of HiFi-3 (LX6.0.2)and HiFi-3z (LX8.0.3) cores, using RJ-2024.4 tool chain .
+- Sanity testing has been done for backward compatibility on xt-clang using RJ-2024.3 tool chain & LX7.1.10 cores. 
+     
+* Performance data:
+- The performance numbers are updated and populated for 5 stage HiFi3z-LX8 core and HiFi3-LX6 core both with ideal memory.
+     
+* Known issues:
+  - None. 
+
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v4.2.0  Mar-2024 
+==============================================================
+
+- This release contains source code changes to build with RJ-2024.3 toolchain.  
+- This is a unified source code that builds for both HiFi3 and HiFi3z cores. 
+- Verification & testing has been done with a very limited number of HiFi-3 (LX6.0.2)and HiFi-3z (LX8.0.3) cores,  using RJ-2024.3 tool chain .
+- Sanity testing has been done for backward compatibility on xt-clang using RI-2023.11 tool chain & LX7.1.10 cores. 
+     
+* Performance data:
+The performance numbers remains the same as the earlier release. 
+     
+* Known issues:
+  - None. 
+  
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v4.1.0  06-Dec-2022 
+==============================================================
+
+Functional changes:
+	- added SFPU support for floating point routines
+	- performance improvements for FFT routines
+
+API/doc changes:
+	- no changes
+
+Test tools:
+	- validated on RI2021.7 with xt-clang compiler
+	- added LMS convergence tests
+	- added more FFT tests
+	- added sanity vectors for quick functional check
+
+Fixes:
+	- fixed scratch allocation errors in some FIR functions
+	- fixed saturation error in imdct8x16() 
+
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v4.0.0  07-Nov-2017 
+==============================================================
+
+API/doc changes:
+1.1 Added more sizes for mixed radix FFT (complex: 80, 100, 160, 200, 
+    384, 400, 600, real: 30, 90, 384, 720, 1152, 1440, 1536, 1920)
+1.2 Added size N=64 for DCT Type II 
+1.3 More explanations about FFT scaling modes in the document
+
+Test tools:
+2.1. added validation of bitexactness scalar vs vector functions for 
+     math/complex packages
+2.2. fast math and mixed radix real FFTs are separated to specific 
+     tests
+2.3. added testing for overlapping of input/output arguments for 
+     math/complex packages. Fixed overlapping problem in vec_logxxx 
+     functions
+
+Other:
+3.1  Added more comments (scl_sigmoid32x32, vec_sigmoid32x32, scl_tanh32x32, 
+     vec_tanh32x32, vec_softmax32x32())
+
+
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v3.1.0  13-Sep-2017 
+==============================================================
+
+API changes:
+1.1 2D-DCT compatibility with ITU-T T.81 (JPEG)
+1.2 added inverse 2D-DCT
+
+Test tools:
+2.1. better coverage for math/complex/fft/dct test data
+2.2  more performance tests for 24x24 FFTs
+
+
+Other:
+3.1 closed all missing functionality and known issues in 3.20 
+    (2D-DCT, MDCT, all radix2/mixed radix 32x32, 16x16_ie FFTs, etc.)
+3.2 Fixed bug TENX-36956 (to remove pragma super_swp)
+3.3 Fixed bug with potential overflow in 24x24 FFTs
+3.4 Improved DC precision for 24x24 FFTs (bug TENX-34043) by more 
+    accurate rounding (~10dB)
+3.5 fixed ferret warnings for vec_scale16x16, vec_scale24x24, 
+    vec_scale32x32, vec_shift16x16_fast, bqriir16x16_df1,
+3.6 improved scheduling for vec_alog10f, vec_complex2invmag on HiFi3z 
+     with VFPU
+3.7 improved performance for DCT-IV (24x24, 32x32) on N=32
+
+
+Known issues:
+4.1. math/complex functions provide required accuracy, but are 
+     not validated for bitexactness between scalar and vector 
+     counterparts.
+4.2  few floating math routines (sinef, cosinef, etc.) are scheduled 
+     worse on HiFi3z comparing with HiFi3 although the c-code is the 
+     same. Degradation is 5-10%
+
+
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v3.0.0  31-Aug-2017 
+==============================================================
+
+API changes:
+1.1 added HiFi3z capabilities and conditionalization of many functions 
+    for better performance on HiFi3z core
+1.2 new packaging, added more flexible options for testing
+1.3 new FIR functions: bkfir16x16_xxx, bkfira16x16_xxx, bkfira32x32_xxx, 
+    cxfir16x16_xxx, bkfir32x32_xxx, firdec16x16_xxx, firdec32x32_xxx, 
+    firinterp16x16_xxx, firinterp32x32_xxx, fir_convol16x16, 
+    fir_convola16x16, fir_convol32x32, fir_convola32x32, fir_xcorr16x16, 
+    fir_xcorra16x16, fir_xcorr32x32, fir_xcorra32x32, fir_acorr16x16, 
+    fir_acorra16x16, fir_acorr32x32, fir_acorra32x32, lconvola16x16, 
+    lconvola32x32, lxcorra16x16, lxcorra32x32, lacorra16x16, 
+    lacorra32x32, fir_blms16x16, fir_blms32x32
+1.4 new IIR functions: bqriir16x16_df1_xxx, bqriir16x16_df2_xxx, 
+    bqriir32x32_df1_xxx, latr16x16_xxx, latr32x32_xxx
+1.5 new vector functions: vec_dot32x32, vec_dot32x32_fast, 
+    vec_scale32x32, vec_scale32x32_fast
+1.6 new math functions: vec_sqrt16x16, vec_sqrt64x32, scl_sqrt16x16, 
+    scl_sqrt64x32, vec_rsqrt16x16, vec_rsqrt32x32, scl_rsqrt16x16, 
+    scl_rsqrt32x32, vec_tanh32x32, scl_tanh32x32, vec_sigmoid32x32, 
+    scl_ sigmoid32x32, vec_softmax32x32
+1.7 added matrix/matrix and matrix/vector multiplies for 32x32
+1.8 fixed point matrix/matrix APIs is changed (inputs and outputs are 
+    represented in usual matrix layout, not via pointers to rows) for 
+    better performance and better usability
+1.9 FFT: added 32x32 FFT (fft_cplx32x32, ifft_cplx32x32, fft_real32x32, 
+    ifft_real32x32, fft_cplx32x32_ie, ifft_cplx32x32_ie, 
+    fft_real32x32_ie, ifft_real32x32_ie), 16x16 FFT with dynamic 
+    scaling (fft_cplx16x16_ie, ifft_cplx16x16_ie, fft_real16x16_ie, 
+    ifft_real16x16_ie), mixed radix 32x32 FFTs 
+1.10 changed parameter N of DCT-II function to DCT-II handle to 
+     minimize memory footprint
+1.11 DCT: added DCT type II, MDCT, IMDCT and 2D DCT 
+
+Test tools
+2.1 upgraded test framework, including verification reporting, separate 
+    testing the packages, performance briefs, etc.
+2.2 newer FFT tests similar to BBE 
+
+Other:
+3.1 fixed wrong definitions in NatureDSP_types.h (TENX-36172)
+3.2 fixed overflows that may happen in fixed point older ffts on special signals
+3.2 code is validated on 2 configs 
+     - RG2016.4 without z but with VFPU 
+     - standard config for HiFi3z without VFPU from RG2017.6
+
+Known issuses:
+4.1 no MDCT and 2D-DCT code yet
+4.2 radix-2 and mixed radix 32x32 FFT is done in reference code only, 
+    no ported code done yet
+4.3 running FFT code with -mips under VisualStudio causes assertion
+4.4 some garbage text in test framework output
+4.5 no ferret test done
+4.6 there is some space for optimization 
+     - 16x16_ie FFT functions
+     - dct type IV, 32x32 and 24x24 specifically for N=32
+4.7 internal function renaming is not finalized (some internal library 
+    functions/symbols still visible)
+4.8 verification reporting is not done for FFT functions
+
+
+==============================================================
+Release Notes for NatureDSP library (HiFi 3/3Z)
+version: v2.0.0  30-Mar-2017 
+==============================================================
+1. added verification reporting (-vreport command line option)
+2. improved accuracy of fixed-point 24x24 FFT routines (less bias on DC and less noise)

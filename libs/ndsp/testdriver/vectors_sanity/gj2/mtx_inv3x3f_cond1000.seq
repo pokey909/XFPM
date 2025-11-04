@@ -1,0 +1,12 @@
+; test data for verification of mtx_inv3x3f_cond1000 function
+
+; these data are generated automatically, do not change them manually
+; ---------------------------------------------------------------
+; Copyright IntegrIT 2014-2020
+; ---------------------------------------------------------------
+; accuracy
+1 0; test case # and type (accuracy)
+3 ; N
+416f11a7 40cf5c3d c0ffe80b 40d2ae6a 40b09899 c0ba7c13 4178b58e 41489f5f c156fb20 ; A
+3e86c8eb 4050d6ee bfca107d 3f05b330 41973ded c108463b 3f4ba6a6 41ab5ea5 c11d86ee ; inv(A)lo
+3e8a2495 40514264 bfc93993 3f076106 41974b5b c1082b5d 3f4d547c 41ab6c13 c11d6c10 ; inv(A)hi

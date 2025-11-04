@@ -1,0 +1,9 @@
+build/
+plan_execution_logs/
+Testing
+.vscode/
+.DS_Store
+*.log
+*.tmp
+.env
+docs/

@@ -1,0 +1,13 @@
+; test data for verification of vec_cplx2real_multf function
+
+; these data are generated automatically, do not change them manually
+; ---------------------------------------------------------------
+; Copyright IntegrIT 2014-2020
+; ---------------------------------------------------------------
+; accuracy
+1 0; test case # and type (accuracy)
+8 ; N
+444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395 444d52e4 c41f1395  ; x[128]
+4476da31  ; y[128]
+4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468 4945fca5 c9196468  ; zlo (lower bound)
+4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464 4945fca9 c9196464  ; zhi (upper bound)

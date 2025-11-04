@@ -1,0 +1,13 @@
+; test data for verification of vec_cplx2real_mult32x32 function
+
+; these data are generated automatically, do not change them manually
+; ---------------------------------------------------------------
+; Copyright IntegrIT 2014-2020
+; ---------------------------------------------------------------
+; known data
+1 1; test case # and type (known data)
+8 ; N
+-199 -251 -199 -251 -199 -251 -199 -251 -199 -251 -199 -251 -199 -251 -199 -251 ; x[8]
+-374 ; y[8]
+74424 93872 74424 93872 74424 93872 74424 93872 74424 93872 74424 93872 74424 93872 74424 93872 ; zlo (lower bound)
+74428 93876 74428 93876 74428 93876 74428 93876 74428 93876 74428 93876 74428 93876 74428 93876 ; zhi (upper bound)
