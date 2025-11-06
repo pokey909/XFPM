@@ -94,6 +94,80 @@ struct FixedPoint {
         return this->template div<I, F>(rhs);
     }
 
+    // Core compile-time routed addition (explicit OUT_I/OUT_F)
+    template<int OUT_I, int OUT_F, typename Other>
+    auto add(const Other& rhs) const {
+        using Out = FixedPoint<OUT_I, OUT_F, Backend>;
+        constexpr int Xb = total_bits;
+        constexpr int Yb = Other::total_bits;
+        constexpr int Ob = Out::total_bits;
+
+        using Ax = typename StorageForBits<Xb>::type;
+        using By = typename StorageForBits<Yb>::type;
+        using Ro = typename StorageForBits<Ob>::type;
+
+        // Align operands to output fractional bits
+        constexpr int shift_lhs = F - OUT_F;
+        constexpr int shift_rhs = Other::frac_bits - OUT_F;
+
+        Ax ax = static_cast<Ax>(raw_);
+        By by = static_cast<By>(rhs.raw());
+
+        // Shift operands to align fractional bits (with rounding)
+        long long lhs_aligned = (shift_lhs == 0) ? ax : round_shift(ax, shift_lhs);
+        long long rhs_aligned = (shift_rhs == 0) ? by : round_shift(by, shift_rhs);
+
+        // Perform addition
+        long long sum = lhs_aligned + rhs_aligned;
+
+        // Saturate to output type
+        Ro ro = fp::sat_cast<Ro>(sum);
+        return Out(ro);
+    }
+
+    // Ergonomic addition: default to SAME Q as lhs
+    template<typename Other>
+    auto operator+(const Other& rhs) const {
+        return this->template add<I, F>(rhs);
+    }
+
+    // Core compile-time routed subtraction (explicit OUT_I/OUT_F)
+    template<int OUT_I, int OUT_F, typename Other>
+    auto sub(const Other& rhs) const {
+        using Out = FixedPoint<OUT_I, OUT_F, Backend>;
+        constexpr int Xb = total_bits;
+        constexpr int Yb = Other::total_bits;
+        constexpr int Ob = Out::total_bits;
+
+        using Ax = typename StorageForBits<Xb>::type;
+        using By = typename StorageForBits<Yb>::type;
+        using Ro = typename StorageForBits<Ob>::type;
+
+        // Align operands to output fractional bits
+        constexpr int shift_lhs = F - OUT_F;
+        constexpr int shift_rhs = Other::frac_bits - OUT_F;
+
+        Ax ax = static_cast<Ax>(raw_);
+        By by = static_cast<By>(rhs.raw());
+
+        // Shift operands to align fractional bits (with rounding)
+        long long lhs_aligned = (shift_lhs == 0) ? ax : round_shift(ax, shift_lhs);
+        long long rhs_aligned = (shift_rhs == 0) ? by : round_shift(by, shift_rhs);
+
+        // Perform subtraction
+        long long diff = lhs_aligned - rhs_aligned;
+
+        // Saturate to output type
+        Ro ro = fp::sat_cast<Ro>(diff);
+        return Out(ro);
+    }
+
+    // Ergonomic subtraction: default to SAME Q as lhs
+    template<typename Other>
+    auto operator-(const Other& rhs) const {
+        return this->template sub<I, F>(rhs);
+    }
+
     // Logarithm operations (input converted to Q16.15, output as Q6.25)
     auto log2() const {
         using Out = FixedPoint<6, 25, Backend>;  // Q6.25 output
