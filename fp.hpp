@@ -25,11 +25,16 @@ struct FixedPoint {
     constexpr FixedPoint() : raw_(0) {}
     constexpr explicit FixedPoint(storage_t raw) : raw_(raw) {}
 
-    // Round-to-nearest input quantization
-    static FixedPoint from_float(float v) {
+    // Float constructor - explicit to prevent accidental conversions
+    explicit FixedPoint(float v) {
         const float scale = float(1u << F);
         long long q = llroundf(v * scale);
-        return FixedPoint( fp::sat_cast<storage_t>(q) );
+        raw_ = fp::sat_cast<storage_t>(q);
+    }
+
+    // Round-to-nearest input quantization (static method for compatibility)
+    static FixedPoint from_float(float v) {
+        return FixedPoint(v);
     }
 
     float to_float() const {
