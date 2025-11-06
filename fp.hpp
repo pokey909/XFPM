@@ -168,6 +168,53 @@ struct FixedPoint {
         return this->template sub<I, F>(rhs);
     }
 
+    // Comparison operators - handle mixed Q-format comparisons
+    // by aligning to common fractional bits
+    template<typename Other>
+    bool operator<(const Other& rhs) const {
+        // Align to max fractional bits for accurate comparison
+        constexpr int max_frac = (F > Other::frac_bits) ? F : Other::frac_bits;
+        constexpr int shift_lhs = F - max_frac;
+        constexpr int shift_rhs = Other::frac_bits - max_frac;
+
+        long long lhs_aligned = (shift_lhs == 0) ? raw_ : round_shift(raw_, shift_lhs);
+        long long rhs_aligned = (shift_rhs == 0) ? rhs.raw() : round_shift(rhs.raw(), shift_rhs);
+
+        return lhs_aligned < rhs_aligned;
+    }
+
+    template<typename Other>
+    bool operator>(const Other& rhs) const {
+        return rhs < *this;
+    }
+
+    template<typename Other>
+    bool operator<=(const Other& rhs) const {
+        return !(rhs < *this);
+    }
+
+    template<typename Other>
+    bool operator>=(const Other& rhs) const {
+        return !(*this < rhs);
+    }
+
+    template<typename Other>
+    bool operator==(const Other& rhs) const {
+        constexpr int max_frac = (F > Other::frac_bits) ? F : Other::frac_bits;
+        constexpr int shift_lhs = F - max_frac;
+        constexpr int shift_rhs = Other::frac_bits - max_frac;
+
+        long long lhs_aligned = (shift_lhs == 0) ? raw_ : round_shift(raw_, shift_lhs);
+        long long rhs_aligned = (shift_rhs == 0) ? rhs.raw() : round_shift(rhs.raw(), shift_rhs);
+
+        return lhs_aligned == rhs_aligned;
+    }
+
+    template<typename Other>
+    bool operator!=(const Other& rhs) const {
+        return !(*this == rhs);
+    }
+
     // Logarithm operations (input converted to Q16.15, output as Q6.25)
     auto log2() const {
         using Out = FixedPoint<6, 25, Backend>;  // Q6.25 output
