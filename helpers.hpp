@@ -45,7 +45,7 @@ template<int N> struct priority_tag : priority_tag<N-1> {};
 template<> struct priority_tag<0> {};
 
 // signed round-to-nearest, ties away from zero (simple variant)
-auto round_shift = [](long long x, int s) -> long long {
+inline auto round_shift = [](long long x, int s) -> long long {
     if (s <= 0) return (s==0 ? x : (x << (-s)));
     long long bias = 1ll << (s - 1);
     return (x >= 0) ? (x + bias) >> s : (x - bias) >> s;
